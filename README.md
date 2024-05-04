@@ -23,7 +23,7 @@ This project aims to design and implement a database for a car dealership. The d
 **Instructions:**
 
 1. Import the `create_tables.sql` script into your chosen DBMS to create the database structure.
-2. (Optional) Run the `sample_data.sql` script to populate the tables with sample data.
+2. (Optional) Run the sample data script to populate the tables with sample data.
 3. Refer to the `report.pdf` or `report.docx` for detailed information about the project and database functionalities.
 
 ### Additional Information
