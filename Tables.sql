@@ -11,20 +11,6 @@ CREATE TABLE Role (
   FOREIGN KEY (department_id) REFERENCES Department(department_id)
 );
 
-
---Employee TABLE
-CREATE TABLE Employee (
-  employee_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  phone_no VARCHAR(255) NOT NULL,
-  role_id INT UNSIGNED NOT NULL,
-  department_id INT UNSIGNED NOT NULL,
-  hire_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (role_id) REFERENCES Role(role_id),
-  FOREIGN KEY (department_id) REFERENCES Role(department_id)
-  
-);
-
 -- Trigger to ensure valid department_id before inserting a new role
 DELIMITER //
 CREATE TRIGGER assign_department_before_insert
@@ -41,6 +27,27 @@ BEGIN
   END IF;
 END; //
 DELIMITER ;
+
+--Employee TABLE
+CREATE TABLE Employee (
+  employee_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  phone_no VARCHAR(255) NOT NULL,
+  role_id INT UNSIGNED NOT NULL,
+  department_id INT UNSIGNED NOT NULL,
+  hire_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (role_id) REFERENCES Role(role_id),
+  FOREIGN KEY (department_id) REFERENCES Role(department_id)
+  
+);
+
+--Assigns department_id into Employee based on inserted role_id
+CREATE TRIGGER assign_department_on_insert
+BEFORE INSERT ON Employee
+FOR EACH ROW
+BEGIN
+  SET NEW.department_id = (SELECT department_id FROM Role WHERE role_id = NEW.role_id);
+END;
 
 
 -- Make Table
