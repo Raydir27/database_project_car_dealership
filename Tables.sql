@@ -67,13 +67,12 @@ CREATE TABLE Model (
 
 -- Vehicle Table (Updated with Foreign Keys)
 CREATE TABLE Vehicle (
-  vehicle_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  vin_number VARCHAR(17) NOT NULL UNIQUE PRIMARY KEY,
   make_id INT UNSIGNED NOT NULL,
   model_id INT UNSIGNED NOT NULL,
   year INT NOT NULL,
   mileage INT,
   color VARCHAR(50),
-  vin_number VARCHAR(17) NOT NULL UNIQUE,
   purchase_price DECIMAL(10,2),
   status ENUM('available', 'sold', 'under service') NOT NULL DEFAULT 'available',
   FOREIGN KEY (make_id) REFERENCES Make(make_id),
