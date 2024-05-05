@@ -93,14 +93,14 @@ CREATE TABLE Customer (
 CREATE TABLE Sales_Transaction (
   transaction_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   customer_id INT UNSIGNED NOT NULL,
-  vehicle_id INT UNSIGNED NOT NULL,
+  vin_number VARCHAR NOT NULL,
   salesperson_id INT UNSIGNED,  -- Foreign Key to Employee table (if applicable)
   sale_date DATETIME NOT NULL,
   price DECIMAL(10,2) NOT NULL,
   financing_details TEXT,
   warranty_details TEXT,
   FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
-  FOREIGN KEY (vehicle_id) REFERENCES Vehicle(vehicle_id),
+  FOREIGN KEY (vin_number) REFERENCES Vehicle(vin_number),
   FOREIGN KEY (salesperson_id) REFERENCES Employee(employee_id)  -- Add this line if including Employee table
 );
 
