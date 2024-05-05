@@ -104,3 +104,34 @@ CREATE TABLE Sales_Transaction (
   FOREIGN KEY (salesperson_id) REFERENCES Employee(employee_id)  -- Add this line if including Employee table
 );
 
+DELIMITER //
+CREATE PROCEDURE update_vehicle_status_on_sale()
+BEGIN
+  DECLARE vehicle_exists INT;
+  DECLARE sold_vin VARCHAR(17);
+
+  -- Get VIN from the inserted Sales_Transaction record
+  SET sold_vin = NEW.vin_number;
+
+  -- Check if vehicle exists in Vehicle table
+  SELECT COUNT(*) INTO vehicle_exists
+  FROM Vehicle
+  WHERE vin_number = sold_vin;
+
+  IF vehicle_exists = 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid VIN number provided';
+  END IF;
+
+  -- Update status to 'sold' in Vehicle table
+  UPDATE Vehicle
+  SET status = 'sold'
+  WHERE vin_number = sold_vin;
+END; //
+DELIMITER ;
+
+CREATE TRIGGER update_vehicle_on_sale_after_insert
+AFTER INSERT ON Sales_Transaction
+FOR EACH ROW
+BEGIN
+  CALL update_vehicle_status_on_sale();
+END;
