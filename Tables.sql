@@ -83,10 +83,10 @@ CREATE TABLE Vehicle (
 CREATE TABLE Customer (
   customer_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
-  phone_no VARCHAR(255) NOT NULL,
-  driver_license_details VARCHAR(255),
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+  address VARCHAR(255)
+  phone_no INT NOT NULL,
+  driver_license_details VARCHAR(255)
+  );
 
 
 -- Sales Transaction Table (can be created later with Foreign Keys referencing these tables)
@@ -97,8 +97,6 @@ CREATE TABLE Sales_Transaction (
   salesperson_id INT UNSIGNED,  -- Foreign Key to Employee table (if applicable)
   sale_date DATETIME NOT NULL,
   price DECIMAL(10,2) NOT NULL,
-  financing_details TEXT,
-  warranty_details TEXT,
   FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
   FOREIGN KEY (vin_number) REFERENCES Vehicle(vin_number),
   FOREIGN KEY (salesperson_id) REFERENCES Employee(employee_id)  -- Add this line if including Employee table
