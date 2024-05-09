@@ -102,3 +102,67 @@ BEGIN
   CLOSE transaction_cursor;
 END;
 /
+
+--Display Vehicle ID's by grouping Make and Model
+DECLARE
+  vehicle_cursor CURSOR FOR
+  SELECT vin_number, m.make_name, mo.model_name, year, mileage, color, purchase_price, status
+  FROM Vehicle v
+  JOIN Make m ON v.make_id = m.make_id
+  JOIN Model mo ON v.model_id = mo.model_id;
+  vehicle_record Vehicle%ROWTYPE;
+  make_model_group VARCHAR(255);  -- To store make and model for grouping
+
+BEGIN
+  OPEN vehicle_cursor;
+  LOOP
+    FETCH vehicle_cursor INTO vehicle_record;
+    EXIT WHEN vehicle_cursor%NOTFOUND;
+
+    -- Create a group identifier for make and model
+    make_model_group := 'Make: ' || vehicle_record.make_name || ', Model: ' || vehicle_record.model_name;
+
+    -- Check if it's a new group (make and model combination)
+    IF DBMS_OUTPUT.GET_LINE(make_model_group) IS NULL THEN
+      DBMS_OUTPUT.PUT_LINE(make_model_group);  -- Print the group header
+    END IF;
+
+    -- Display vehicle details within the group
+    DBMS_OUTPUT.PUT_LINE('\t' || vehicle_record.vin_number || ' - ' || vehicle_record.year || ' ' || vehicle_record.color);  
+
+  END LOOP;
+  CLOSE vehicle_cursor;
+END;
+/
+
+--Group and Display Employees by Role and Department
+DECLARE
+  employee_cursor CURSOR FOR
+  SELECT employee_id, name, phone_no, e.role_id, e.department_id, r.role_name, d.department_name
+  FROM Employee e
+  JOIN Role r ON e.role_id = r.role_id
+  JOIN Department d ON e.department_id = d.department_id;
+  employee_record Employee%ROWTYPE;
+  role_dept_group VARCHAR(255);  -- To store role and department for grouping
+
+BEGIN
+  OPEN employee_cursor;
+  LOOP
+    FETCH employee_cursor INTO employee_record;
+    EXIT WHEN employee_cursor%NOTFOUND;
+
+    -- Create a group identifier for role and department names
+    role_dept_group := 'Role: ' || employee_record.role_name || ', Department: ' || employee_record.department_name;
+
+    -- Check if it's a new group (role and department combination)
+    IF DBMS_OUTPUT.GET_LINE(role_dept_group) IS NULL THEN
+      DBMS_OUTPUT.PUT_LINE(role_dept_group);  -- Print the group header
+    END IF;
+
+    -- Display employee details within the group
+    DBMS_OUTPUT.PUT_LINE('\t' || employee_record.employee_id || ' - ' || employee_record.name);
+
+  END LOOP;
+  CLOSE employee_cursor;
+END;
+/
