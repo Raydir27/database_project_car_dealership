@@ -11,7 +11,7 @@ This project aims to design and implement a database for a car dealership. The d
 
 * **ER Diagrams** (`ER_Diag.png`, `ER_To_Table.png`): Entity-Relationship diagrams visually representing the database schema.
 * **SQL Scripts** (`Tables.sql`, `Functions.sql`): Scripts to create the database tables and populate them with functions. 
-* **Report** (e.g., `report.pdf`, `report.docx`): A report documenting the project, including the database design, functionalities, and findings.
+* **Report** (`report.pdf`): A report documenting the project, including the database design, functionalities, and findings.
 
 ### Getting Started
 
@@ -24,7 +24,7 @@ This project aims to design and implement a database for a car dealership. The d
 
 1. Import the `Tables.sql` script into your chosen DBMS to create the database structure.
 2. (Optional) Add data to populate the tables using `Functions.sql`.
-3. Refer to the `report.pdf` or `report.docx` for detailed information about the project and database functionalities.
+3. Refer to the `report.pdf` for detailed information about the project and database functionalities.
 
 ### Additional Information
 
